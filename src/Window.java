@@ -2,9 +2,11 @@
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -19,6 +21,8 @@ public class Window extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = -8255319694373975038L;
 	
+	
+	
 	final static String WELCOME_PANEL = "Card with welcome message";
 	final static String ADD_PANEL_1 = "Card with add form for Journal Paper";
 	final static String ADD_PANEL_2 = "Card with add form for Conferense Paper";
@@ -26,14 +30,17 @@ public class Window extends JFrame implements ActionListener {
 	final static String DELETE_PANEL = "Card with delete form";
 	final static String SEARCH_PANEL = "Card with search form";
 	
+	ImageIcon search_icon = new ImageIcon("res/search_icon_20.png","Search Icon");
+	ImageIcon add_icon = new ImageIcon("res/add_icon_20.png","Search Icon");
+	
 	JPanel mainPanel,menuPanel,contentPanel;
 	JPanel card_welcome, card_add_1, card_add_2, card_edit, card_delete, card_search;
 	//JButton btn_add_1, btn_add_2, btn_edit, btn_delete, btn_search;
 	
 	CardLayout card_layout = new CardLayout();
-	
+
 	JMenuBar menuBar;
-	JMenu menu_add, menu_search;
+	JMenu menu_add, menu_separator, menu_search;
 	JMenuItem menu_add_item1, menu_add_item2;
 	
 	
@@ -57,8 +64,9 @@ public class Window extends JFrame implements ActionListener {
 				
 				
 				mainPanel = new JPanel(new BorderLayout());
-				menuPanel = new JPanel();
+				menuPanel = new JPanel(new BorderLayout());
 				contentPanel = new JPanel(card_layout);
+				
 			
 				
 				card_welcome = new JPanel();
@@ -74,8 +82,14 @@ public class Window extends JFrame implements ActionListener {
 				card_search.setBackground(Color.BLUE);
 				
 				menuBar = new JMenuBar();
-				menu_add = new JMenu("Add Paper");
-				menu_search = new JMenu("Search Paper");
+				
+				menu_add = new JMenu("ADD");
+				menu_add.setIcon(add_icon);
+				menu_separator = new JMenu("|");
+				menu_separator.setEnabled(false);
+				menu_search = new JMenu("SEARCH");
+				menu_search.setIcon(search_icon);
+				
 				menu_add_item1 = new JMenuItem("Journal paper");
 				menu_add_item2 = new JMenuItem("Conferense paper");
 				
@@ -83,6 +97,7 @@ public class Window extends JFrame implements ActionListener {
 				menu_add.add(menu_add_item2);
 				
 				menuBar.add(menu_add);
+				menuBar.add(menu_separator);
 				menuBar.add(menu_search);
 			
 				
@@ -97,7 +112,7 @@ public class Window extends JFrame implements ActionListener {
 				//btn_delete.addActionListener(this);
 				//btn_search.addActionListener(this);
 				
-				menuPanel.add(menuBar);
+				menuPanel.add(menuBar, BorderLayout.LINE_START);
 				//menuPanel.add(btn_add);
 				//menuPanel.add(btn_edit);
 				//menuPanel.add(btn_delete);
@@ -108,6 +123,7 @@ public class Window extends JFrame implements ActionListener {
 				contentPanel.add(card_add_2, ADD_PANEL_2);
 				contentPanel.add(card_search, SEARCH_PANEL);
 				card_layout.show(contentPanel, WELCOME_PANEL); //Setting the default Panel
+				
 				
 				
 				
