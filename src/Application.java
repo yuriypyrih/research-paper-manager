@@ -8,7 +8,9 @@ public class Application {
 	
 	Application(){
 		
-		 new Window(WIDTH, HEIGHT,"Paper Manager",this);
+		PaperManager manager = new PaperManager();
+		new Window(WIDTH, HEIGHT,"Paper Manager",manager);
+		 
 		 System.out.println("Application Started");
 	}
 

@@ -26,7 +26,7 @@ import javax.swing.SwingUtilities;
 public class Window extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = -8255319694373975038L;
-	
+	private PaperManager manager;
 	
 	
 	final static String WELCOME_PANEL = "Card with welcome message";
@@ -41,10 +41,9 @@ public class Window extends JFrame implements ActionListener {
 	
 	JPanel mainPanel,menuPanel,contentPanel;
 	JPanel card_welcome, card_add_1, card_add_2, card_edit, card_delete, card_search;
-	JLabel lb_name_of_article, lb_name_of_author, lb_name_of_journal, lb_number_of_pages, lb_date, lb_volume, lb_page;
-	JTextField tf_name_of_article, tf_name_of_author, tf_name_of_journal, tf_number_of_pages, tf_date, tf_volume, tf_page;
+	JTextField tf_name_of_article, tf_name_of_author, tf_name_of_journal, tf_number_of_pages, tf_date, tf_volume, tf_page, tf_city;
 	
-	JButton btn_sumbit;
+	JButton btn_sumbit_1 , btn_sumbit_2;
 	
 	CardLayout card_layout = new CardLayout();
 	GridBagConstraints c = new GridBagConstraints();
@@ -57,22 +56,17 @@ public class Window extends JFrame implements ActionListener {
 	
 	
 	//Constructor of Window
-	public Window(int width, int height, String title, Application application) {
+	public Window(int width, int height, String title, PaperManager manager) {
 		
-		//SwingUtilities.invokeLater(new Runnable() {
-			
-			//public void run() {
+				this.manager = manager;
 				
 				JFrame frame = new JFrame(title);
 				frame.setSize(width,height);
-				
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setResizable(false);
-				frame.setLocationRelativeTo(null);
-				//frame.add(application);
-				
+				frame.setLocationRelativeTo(null);	
 				frame.setVisible(true);
-				//application.start();
+			
 				
 				
 				
@@ -91,16 +85,14 @@ public class Window extends JFrame implements ActionListener {
 				
 				card_welcome = new JPanel();
 				card_add_1 = new JPanel( new GridBagLayout());
-				card_add_2 = new JPanel();
-				//card_delete = new JPanel();
+				card_add_2 = new JPanel( new GridBagLayout());
 				card_search = new JPanel();
 				
-				
-				
+					
 				
 				card_welcome.setBackground(Color.GRAY);
 				//card_add_1.setBackground(Color.GREEN);
-				card_add_2.setBackground(Color.YELLOW);
+				//card_add_2.setBackground(Color.YELLOW);
 				//card_delete.setBackground(Color.RED);
 				card_search.setBackground(Color.BLUE);
 				
@@ -115,25 +107,6 @@ public class Window extends JFrame implements ActionListener {
 				
 				menu_add_item1 = new JMenuItem("Journal paper");
 				menu_add_item2 = new JMenuItem("Conferense paper");
-				
-				lb_name_of_article = new JLabel("Name of article");
-				tf_name_of_article = new JTextField(15);
-				lb_name_of_author = new JLabel("Name of author");
-				tf_name_of_author = new JTextField(15);
-				lb_name_of_journal = new JLabel("Name of Journal");
-				tf_name_of_journal = new JTextField(15);
-				lb_number_of_pages = new JLabel("Amount of pages");
-				tf_number_of_pages = new JTextField(3);
-				lb_date = new JLabel("Publish's Date");
-				tf_date = new JTextField("12/3/2019",6);
-				lb_volume = new JLabel("Volume");
-				tf_volume = new JTextField(6);
-				lb_page = new JLabel("Article's page");
-				tf_page = new JTextField(6);
-				
-				btn_sumbit = new JButton("Sumbit");
-			
-				
 				
 				
 				/*Adding the componnets */
@@ -161,70 +134,12 @@ public class Window extends JFrame implements ActionListener {
 				
 				/* Card1 , Add journal Paper*/
 				
-				//c.fill = GridBagConstraints.HORIZONTAL;
+				getJPanel_journalPaper();
+				//getJPanel_conferencePaper();
 				
-				c.anchor = GridBagConstraints.LINE_START;
-				c.insets = new Insets(6,6,6,6);  
-				c.gridx = 0;
-				c.gridy = 0;
-				card_add_1.add(lb_name_of_article,c);
-				c.gridx = 1;
-				c.gridy = 0;
-				card_add_1.add(tf_name_of_article,c);
-				c.gridx = 0;
-				c.gridy = 1;
-				card_add_1.add(lb_name_of_author,c);
-				c.gridx = 1;
-				c.gridy = 1;
-				card_add_1.add(tf_name_of_author,c);
-				c.gridx = 0;
-				c.gridy = 2;
-				card_add_1.add(lb_name_of_journal,c);
-				c.gridx = 1;
-				c.gridy = 2;
-				card_add_1.add(tf_name_of_journal,c);
-				c.gridx = 0;
-				c.gridy = 3;
-				card_add_1.add(lb_number_of_pages,c);
-				c.gridx = 1;
-				c.gridy = 3;
-				card_add_1.add(tf_number_of_pages,c);
-				c.gridx = 0;
-				c.gridy = 4;
-				card_add_1.add(lb_date,c);
-				c.gridx = 1;
-				c.gridy = 4;
-				card_add_1.add(tf_date,c);
-				c.gridx = 0;
-				c.gridy = 5;
-				card_add_1.add(lb_volume,c);
-				c.gridx = 1;
-				c.gridy = 5;
-				card_add_1.add(tf_volume,c);
-				c.gridx = 0;
-				c.gridy = 6;
-				card_add_1.add(lb_page,c);
-				c.gridx = 1;
-				c.gridy = 6;
-				card_add_1.add(tf_page,c);
-				
-				c.ipadx = 50;
-				c.gridx = 1;
-				c.gridy = 7;
-				card_add_1.add(btn_sumbit,c);
-				
-				
-				
-				
-				
-			//}
-		//});
+					
 		
-		
-		
-		
-		
-	}
+	}//end of Constructor
 
 
 
@@ -249,7 +164,171 @@ public class Window extends JFrame implements ActionListener {
             card_layout.show(contentPanel, SEARCH_PANEL);
             
         }
-       
+        else if (action.equals("btn_sumbit_1")) {
+            System.out.println("Sumbit Button pressed!");
+            
+            String str_name_of_article = tf_name_of_article.getText();
+            String str_name_of_author = tf_name_of_author.getText();
+            String str_name_of_journal = tf_name_of_journal.getText();
+            String str_number_of_pages = tf_number_of_pages.getText();
+            String str_date = tf_date.getText();
+            String str_volume = tf_volume.getText();
+            String str_page = tf_page.getText();
+            
+            if(PaperJournal.checkInput(str_name_of_article, str_name_of_author, Integer.valueOf(str_number_of_pages)) ){
+            	PaperJournal tempPaper = new PaperJournal(str_name_of_article, str_name_of_author, Integer.valueOf(str_number_of_pages));
+            	manager.addObject(tempPaper);
+            	System.out.println(tempPaper.toString() + " Done!");
+            	
+            }else{
+            	System.out.println("Something Went wrong!");
+            }
+            
+        }
+        else if (action.equals("btn_sumbit_2")) {
+            System.out.println("Sumbit Button pressed!");
+            
+            String str_name_of_article = tf_name_of_article.getText();
+            String str_name_of_author = tf_name_of_author.getText();
+            String str_name_of_journal = tf_name_of_journal.getText();
+            String str_number_of_pages = tf_number_of_pages.getText();
+            String str_date = tf_date.getText();
+            String str_city = tf_city.getText();
+            
+        }
+	}
+	/*
+	private JPanel getJPanel_conferencePaper() {
+
+		
+		tf_name_of_article = new JTextField(15);
+		tf_name_of_author = new JTextField(15);
+		tf_name_of_journal = new JTextField(15);
+		tf_number_of_pages = new JTextField(3);
+		tf_date = new JTextField("12/3/2019",6);
+		tf_city = new JTextField(8);
+		
+		
+		btn_sumbit_2 = new JButton("Sumbit");
+		btn_sumbit_2.setActionCommand("btn_sumbit_2");
+		btn_sumbit_2.addActionListener(this);
+		
+		c.ipadx = 0;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.insets = new Insets(6,6,6,6);  
+		c.gridx = 0;
+		c.gridy = 0;
+		card_add_2.add(new JLabel("Name of article"),c);
+		c.gridx = 1;
+		c.gridy = 0;
+		card_add_2.add(tf_name_of_article,c);
+		c.gridx = 0;
+		c.gridy = 1;
+		card_add_2.add(new JLabel("Name of author"),c);
+		c.gridx = 1;
+		c.gridy = 1;
+		card_add_2.add(tf_name_of_author,c);
+		c.gridx = 0;
+		c.gridy = 2;
+		card_add_2.add( new JLabel("Name of Conference"),c);
+		c.gridx = 1;
+		c.gridy = 2;
+		card_add_2.add(tf_name_of_journal,c);
+		c.gridx = 0;
+		c.gridy = 3;
+		card_add_2.add(new JLabel("Amount of pages"),c);
+		c.gridx = 1;
+		c.gridy = 3;
+		card_add_2.add(tf_number_of_pages,c);
+		c.gridx = 0;
+		c.gridy = 4;
+		card_add_2.add(new JLabel("Date of Conference"),c);
+		c.gridx = 1;
+		c.gridy = 4;
+		card_add_2.add(tf_date,c);
+		c.gridx = 0;
+		c.gridy = 5;
+		card_add_2.add(new JLabel("City"),c);
+		c.gridx = 1;
+		c.gridy = 5;
+		card_add_2.add(tf_city,c);
+		
+		
+		c.ipadx = 50;
+		c.gridx = 1;
+		c.gridy = 6;
+		card_add_2.add(btn_sumbit_2,c);
+		
+		return card_add_2;
+	}
+	*/
+	
+	private JPanel getJPanel_journalPaper() {
+		
+		tf_name_of_article = new JTextField(15);
+		tf_name_of_author = new JTextField(15);
+		tf_name_of_journal = new JTextField(15);
+		tf_number_of_pages = new JTextField(3);
+		tf_date = new JTextField("12/3/2019",6);
+		tf_volume = new JTextField(3);
+		tf_page = new JTextField(3);
+		
+		btn_sumbit_1 = new JButton("Sumbit");
+		btn_sumbit_1.setActionCommand("btn_sumbit_1");
+		btn_sumbit_1.addActionListener(this);
+		
+		c.ipadx = 0;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.insets = new Insets(6,6,6,6);  
+		c.gridx = 0;
+		c.gridy = 0;
+		card_add_1.add(new JLabel("Name of article"),c);
+		c.gridx = 1;
+		c.gridy = 0;
+		card_add_1.add(tf_name_of_article,c);
+		c.gridx = 0;
+		c.gridy = 1;
+		card_add_1.add(new JLabel("Name of author"),c);
+		c.gridx = 1;
+		c.gridy = 1;
+		card_add_1.add(tf_name_of_author,c);
+		c.gridx = 0;
+		c.gridy = 2;
+		card_add_1.add( new JLabel("Name of Journal"),c);
+		c.gridx = 1;
+		c.gridy = 2;
+		card_add_1.add(tf_name_of_journal,c);
+		c.gridx = 0;
+		c.gridy = 3;
+		card_add_1.add(new JLabel("Amount of pages"),c);
+		c.gridx = 1;
+		c.gridy = 3;
+		card_add_1.add(tf_number_of_pages,c);
+		c.gridx = 0;
+		c.gridy = 4;
+		card_add_1.add(new JLabel("Publish's Date"),c);
+		c.gridx = 1;
+		c.gridy = 4;
+		card_add_1.add(tf_date,c);
+		c.gridx = 0;
+		c.gridy = 5;
+		card_add_1.add(new JLabel("Volume"),c);
+		c.gridx = 1;
+		c.gridy = 5;
+		card_add_1.add(tf_volume,c);
+		c.gridx = 0;
+		c.gridy = 6;
+		card_add_1.add( new JLabel("Article's page"),c);
+		c.gridx = 1;
+		c.gridy = 6;
+		card_add_1.add(tf_page,c);
+		
+		c.ipadx = 50;
+		c.gridx = 1;
+		c.gridy = 7;
+		card_add_1.add(btn_sumbit_1,c);
+		
+		return card_add_1;
 	}
 	
 	
