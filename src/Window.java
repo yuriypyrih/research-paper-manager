@@ -40,8 +40,10 @@ public class Window extends JFrame implements ActionListener {
 	ImageIcon add_icon = new ImageIcon("res/add_icon_20.png","Search Icon");
 	
 	JPanel mainPanel,menuPanel,contentPanel;
-	JPanel card_welcome, card_add_1, card_add_2, card_edit, card_delete, card_search;
-	JTextField tf_name_of_article, tf_name_of_author, tf_name_of_journal, tf_number_of_pages, tf_date, tf_volume, tf_page, tf_city;
+	JPanel card_welcome, card_add_1, card_add_2, card_search;
+	JPanel card_search_west,card_search_center;
+	JTextField tf_name_of_article, tf_name_of_author, tf_name_of_journal, tf_number_of_pages, tf_date, tf_volume, tf_page ;
+	JTextField tf_name_of_article_2, tf_name_of_author_2, tf_name_of_conference_2,tf_number_of_pages_2, tf_date_2, tf_city_2;
 	
 	JButton btn_sumbit_1 , btn_sumbit_2;
 	
@@ -50,7 +52,7 @@ public class Window extends JFrame implements ActionListener {
 	
 	JMenuBar menuBar;
 	JMenu menu_add, menu_separator, menu_search;
-	JMenuItem menu_add_item1, menu_add_item2;
+	JMenuItem menu_add_item1, menu_add_item2, menu_search_item;
 	
 	
 	
@@ -86,7 +88,8 @@ public class Window extends JFrame implements ActionListener {
 				card_welcome = new JPanel();
 				card_add_1 = new JPanel( new GridBagLayout());
 				card_add_2 = new JPanel( new GridBagLayout());
-				card_search = new JPanel();
+				card_search = new JPanel(new BorderLayout());
+				
 				
 					
 				
@@ -107,12 +110,14 @@ public class Window extends JFrame implements ActionListener {
 				
 				menu_add_item1 = new JMenuItem("Journal paper");
 				menu_add_item2 = new JMenuItem("Conferense paper");
+				menu_search_item = new JMenuItem("Search paper");
 				
 				
 				/*Adding the componnets */
 				
 				menu_add.add(menu_add_item1);
 				menu_add.add(menu_add_item2);
+				menu_search.add(menu_search_item);
 				
 				menuBar.add(menu_add);
 				menuBar.add(menu_separator);
@@ -120,7 +125,7 @@ public class Window extends JFrame implements ActionListener {
 				
 				menu_add_item1.addActionListener(this);
 				menu_add_item2.addActionListener(this);
-				menu_search.addActionListener(this);
+				menu_search_item.addActionListener(this);
 
 				
 				menuPanel.add(menuBar, BorderLayout.LINE_START);
@@ -135,7 +140,8 @@ public class Window extends JFrame implements ActionListener {
 				/* Card1 , Add journal Paper*/
 				
 				getJPanel_journalPaper();
-				//getJPanel_conferencePaper();
+				getJPanel_conferencePaper();
+				getJPanel_searchPaper();
 				
 					
 		
@@ -145,6 +151,7 @@ public class Window extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+
 	
 		String action = arg0.getActionCommand();
 		
@@ -159,7 +166,7 @@ public class Window extends JFrame implements ActionListener {
             card_layout.show(contentPanel, ADD_PANEL_2);
             
         }
-        else if (action.equals("Search Paper")) {
+        else if (action.equals("Search paper")) {
             System.out.println("Search Button pressed!");
             card_layout.show(contentPanel, SEARCH_PANEL);
             
@@ -188,25 +195,40 @@ public class Window extends JFrame implements ActionListener {
         else if (action.equals("btn_sumbit_2")) {
             System.out.println("Sumbit Button pressed!");
             
-            String str_name_of_article = tf_name_of_article.getText();
-            String str_name_of_author = tf_name_of_author.getText();
-            String str_name_of_journal = tf_name_of_journal.getText();
-            String str_number_of_pages = tf_number_of_pages.getText();
-            String str_date = tf_date.getText();
-            String str_city = tf_city.getText();
+            String str_name_of_article = tf_name_of_article_2.getText();
+            String str_name_of_author = tf_name_of_author_2.getText();
+            String str_name_ofconference = tf_name_of_conference_2.getText();
+            String str_number_of_pages = tf_number_of_pages_2.getText();
+            String str_date = tf_date_2.getText();
+            String str_city = tf_city_2.getText();
             
         }
 	}
-	/*
+	
+	private JPanel getJPanel_searchPaper() {
+		card_search_west = new JPanel();
+		card_search_center = new JPanel();
+		
+		card_search_west.setBackground(Color.GREEN);
+		card_search_center.setBackground(Color.YELLOW);
+		
+		card_search_center.add(new JLabel("Name of article"));
+		
+		card_search.add(card_search_west, BorderLayout.WEST);
+		card_search.add(card_search_center, BorderLayout.CENTER);
+		
+		return card_search;
+	}
+	
 	private JPanel getJPanel_conferencePaper() {
 
 		
-		tf_name_of_article = new JTextField(15);
-		tf_name_of_author = new JTextField(15);
-		tf_name_of_journal = new JTextField(15);
-		tf_number_of_pages = new JTextField(3);
-		tf_date = new JTextField("12/3/2019",6);
-		tf_city = new JTextField(8);
+		tf_name_of_article_2 = new JTextField(15);
+		tf_name_of_author_2 = new JTextField(15);
+		tf_name_of_conference_2 = new JTextField(15);
+		tf_number_of_pages_2 = new JTextField(3);
+		tf_date_2 = new JTextField("12/3/2019",6);
+		tf_city_2 = new JTextField(8);
 		
 		
 		btn_sumbit_2 = new JButton("Sumbit");
@@ -221,37 +243,37 @@ public class Window extends JFrame implements ActionListener {
 		card_add_2.add(new JLabel("Name of article"),c);
 		c.gridx = 1;
 		c.gridy = 0;
-		card_add_2.add(tf_name_of_article,c);
+		card_add_2.add(tf_name_of_article_2,c);
 		c.gridx = 0;
 		c.gridy = 1;
 		card_add_2.add(new JLabel("Name of author"),c);
 		c.gridx = 1;
 		c.gridy = 1;
-		card_add_2.add(tf_name_of_author,c);
+		card_add_2.add(tf_name_of_author_2,c);
 		c.gridx = 0;
 		c.gridy = 2;
 		card_add_2.add( new JLabel("Name of Conference"),c);
 		c.gridx = 1;
 		c.gridy = 2;
-		card_add_2.add(tf_name_of_journal,c);
+		card_add_2.add(tf_name_of_conference_2,c);
 		c.gridx = 0;
 		c.gridy = 3;
 		card_add_2.add(new JLabel("Amount of pages"),c);
 		c.gridx = 1;
 		c.gridy = 3;
-		card_add_2.add(tf_number_of_pages,c);
+		card_add_2.add(tf_number_of_pages_2,c);
 		c.gridx = 0;
 		c.gridy = 4;
 		card_add_2.add(new JLabel("Date of Conference"),c);
 		c.gridx = 1;
 		c.gridy = 4;
-		card_add_2.add(tf_date,c);
+		card_add_2.add(tf_date_2,c);
 		c.gridx = 0;
 		c.gridy = 5;
 		card_add_2.add(new JLabel("City"),c);
 		c.gridx = 1;
 		c.gridy = 5;
-		card_add_2.add(tf_city,c);
+		card_add_2.add(tf_city_2,c);
 		
 		
 		c.ipadx = 50;
@@ -261,7 +283,7 @@ public class Window extends JFrame implements ActionListener {
 		
 		return card_add_2;
 	}
-	*/
+	
 	
 	private JPanel getJPanel_journalPaper() {
 		
