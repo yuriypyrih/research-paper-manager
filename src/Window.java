@@ -3,14 +3,17 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -18,8 +21,10 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 
 
@@ -44,15 +49,21 @@ public class Window extends JFrame implements ActionListener {
 	JPanel card_search_west,card_search_center;
 	JTextField tf_name_of_article, tf_name_of_author, tf_name_of_journal, tf_number_of_pages, tf_date, tf_volume, tf_page ;
 	JTextField tf_name_of_article_2, tf_name_of_author_2, tf_name_of_conference_2,tf_number_of_pages_2, tf_date_2, tf_city_2;
+	JTextField tf_search;
 	
-	JButton btn_sumbit_1 , btn_sumbit_2;
+	JButton btn_sumbit_1 , btn_sumbit_2 , btn_search;
 	
 	CardLayout card_layout = new CardLayout();
 	GridBagConstraints c = new GridBagConstraints();
 	
+	GridBagConstraints c_search_cetner = new GridBagConstraints();
+	
 	JMenuBar menuBar;
 	JMenu menu_add, menu_separator, menu_search;
 	JMenuItem menu_add_item1, menu_add_item2, menu_search_item;
+	
+	JComboBox  comboboxSearch;
+	JTable searchTable;
 	
 	
 	
@@ -88,6 +99,7 @@ public class Window extends JFrame implements ActionListener {
 				card_welcome = new JPanel();
 				card_add_1 = new JPanel( new GridBagLayout());
 				card_add_2 = new JPanel( new GridBagLayout());
+				
 				card_search = new JPanel(new BorderLayout());
 				
 				
@@ -206,13 +218,85 @@ public class Window extends JFrame implements ActionListener {
 	}
 	
 	private JPanel getJPanel_searchPaper() {
+
+		GridBagConstraints c_search_west = new GridBagConstraints();
+		
+		
 		card_search_west = new JPanel();
 		card_search_center = new JPanel();
+		
+		card_search_west.setLayout(new GridBagLayout());
+		//card_search_center.setLayout(new FlowLayout());
 		
 		card_search_west.setBackground(Color.GREEN);
 		card_search_center.setBackground(Color.YELLOW);
 		
-		card_search_center.add(new JLabel("Name of article"));
+		/* Creating the card_search_west*/
+		
+		String[] str_comboboxSearch = { "Show ALL","Name of Article", "Name of Author"};
+		
+		comboboxSearch = new JComboBox(str_comboboxSearch);
+		comboboxSearch.setSelectedIndex(0);
+		comboboxSearch.addActionListener(this);
+		
+		tf_search = new JTextField(16);
+		btn_search = new JButton("Search");
+		btn_search.setActionCommand("btn_search");
+		btn_search.addActionListener(this);
+		
+		
+		c_search_west.ipadx = 0;
+		c_search_west.anchor = GridBagConstraints.LINE_START;
+		c_search_west.insets = new Insets(6,6,6,6);  
+		c_search_west.gridx = 0;
+		c_search_west.gridy = 0;
+		card_search_west.add(new JLabel("Search By"),c_search_west);
+		c_search_west.gridx = 1;
+		c_search_west.gridy = 0;
+		card_search_west.add(comboboxSearch,c_search_west);
+		c_search_west.gridwidth = 2;
+		c_search_west.gridx = 0;
+		c_search_west.gridy = 1;
+		card_search_west.add(tf_search,c_search_west);
+		c_search_west.insets = new Insets(6,30,6,6);
+		c_search_west.ipadx = 50;
+		c_search_west.gridx = 0;
+		c_search_west.gridy = 2;
+		card_search_west.add(btn_search,c_search_west);
+		
+		/* Creating the card_search center*/
+
+		/*String[] columnNames = {"ID",
+                "Article Name",
+                "Type",
+                "Details"};
+		
+		Object[][] data = {
+				{"Hello"," World","Hello","Show more"},
+				{"Okey","Bey","Hello"," World"}
+		};
+		
+		searchTable = new JTable(data, columnNames);
+
+		searchTable.setEnabled(false); */
+		
+		
+		//card_search_center.add(searchTable.getTableHeader());
+		//card_search_center.add(searchTable);
+		
+		JButtonTableExample search_table = new JButtonTableExample();
+		
+		
+		card_search_center.setLayout(new BorderLayout());
+		/*
+		card_search_center.add(searchTable.getTableHeader(), BorderLayout.PAGE_START);
+		card_search_center.add(searchTable, BorderLayout.CENTER);
+		*/
+		card_search_center.add(search_table.getJScrollPaneTable());
+
+		
+		
+		/* Merging them together*/
 		
 		card_search.add(card_search_west, BorderLayout.WEST);
 		card_search.add(card_search_center, BorderLayout.CENTER);
