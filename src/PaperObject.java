@@ -12,6 +12,7 @@ public abstract class PaperObject {
 	}
 	
 	
-		
+	public abstract String toString();
+	public abstract String[] getObject();
 
 }

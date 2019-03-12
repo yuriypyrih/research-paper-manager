@@ -19,6 +19,7 @@ public class PaperManager {
 		System.out.println(object + " object has been removed");
 	this.paperObjectList.remove(object);
 	
-	
 	}
+	
+	
 }

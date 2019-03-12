@@ -22,4 +22,11 @@ public class PaperJournal extends PaperObject{
 		return (str_name_of_article + " " + str_name_of_author + " " + int_number_of_pages) ;
 	}
 
+	@Override
+	public String[] getObject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+
 }
