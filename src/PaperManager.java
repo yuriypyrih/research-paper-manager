@@ -21,6 +21,10 @@ public class PaperManager {
 	
 	}
 	
+	public LinkedList<PaperObject> getPaperObjectList(){
+		return paperObjectList;
+	}
+	
 	public void listAllObject() {
 		for(PaperObject object : paperObjectList) {
 			System.out.println(object.getDetails());

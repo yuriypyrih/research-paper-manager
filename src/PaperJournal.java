@@ -48,6 +48,15 @@ public class PaperJournal extends PaperObject{
 				+ "\nPage: " + int_specific_page) ;
 	}
 
+
+
+	@Override
+	public Object[] getObjectDataTable() {
+		return new Object[] {
+				"RandomID", str_name_of_journal, "Journal", "Show Details"
+		};
+	}
+
 	
 	
 

@@ -1,6 +1,8 @@
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
+
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -13,51 +15,83 @@ import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
-public class JButtonTableExample {
+public class SearchTable {
 	
 	private JScrollPane scroll;
-
-    public JButtonTableExample() {
+	private PaperManager manager;
+	private DefaultTableModel default_model;
+	
+	//private LinkedList<Object[][]> objectDataList = new LinkedList<Object[][]>();
+	
+	private String[] columnNames = {"ID",
+            "Article Name",
+            "Type",
+            "Details"};
+	
+	
+    public SearchTable( PaperManager manager) {
        
+    	this.manager = manager;
 
-        DefaultTableModel dm = new DefaultTableModel() {
+    	default_model = new DefaultTableModel() {
         	@Override
             public boolean isCellEditable(int row, int column) {
-               if(column == 1) {
-            	   return false;  
-               }
-               return true;
+              
+               return false;
             }
         };
         
-        String[] columnNames = {"ID",
-                "Article Name",
-                "Type",
-                "Details"};
-		
-		Object[][] data = {
+        
+        
+        refreshSearchTable();
+        
+		/*data = new Object[][]{
 				{"Hello"," World","Hello","Show more"},
 				{"Okey","Bey","Hello"," Show more"}
-		};
+		};*/
 		
 		
-        JTable table = new JTable(data, columnNames);
-        table.getColumn("Details").setCellRenderer(new ButtonRenderer());
-        table.getColumn("Details").setCellEditor(new ButtonEditor(new JCheckBox()));
-        
-
-
-        scroll = new JScrollPane(table);
-
-        table.setPreferredScrollableViewportSize(table.getPreferredSize());//thanks mKorbel +1 http://stackoverflow.com/questions/10551995/how-to-set-jscrollpane-layout-to-be-the-same-as-jtable
-
-        table.getColumnModel().getColumn(0).setPreferredWidth(100);//so buttons will fit and not be shown butto..
+       
 
         
     }
 
     public JScrollPane getJScrollPaneTable() {
     	return scroll;
+    }
+    
+    public void refreshSearchTable(){
+    	//manager.addObject(new PaperConference("Hello there", "haha", "Okey","something","Athens" ));
+    	int list_size = manager.getPaperObjectList().size();
+    	int index = 0;
+    	Object[][] data = new Object[list_size][4];
+    	
+    	for(PaperObject object : manager.getPaperObjectList() ) {
+    		data[index][0] = object.getObjectDataTable()[0];
+    		data[index][1] = object.getObjectDataTable()[1];
+    		data[index][2] = object.getObjectDataTable()[2];
+    		data[index][3] = object.getObjectDataTable()[3];
+    		System.out.println( object.getObjectDataTable());
+    		index++;
+    	}
+    	
+    	
+    	
+    	 JTable table = new JTable(data, columnNames);
+         table.getColumn("Details").setCellRenderer(new ButtonRenderer());
+         table.getColumn("Details").setCellEditor(new ButtonEditor(new JCheckBox()));
+         
+         System.out.println(table.getRowCount());
+
+         scroll = new JScrollPane(table);
+
+         table.setPreferredScrollableViewportSize(table.getPreferredSize());
+
+         table.getColumnModel().getColumn(0).setPreferredWidth(100);
+         
+         
+    	
+    	
     }
 }
 

@@ -32,6 +32,7 @@ public class Window extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = -8255319694373975038L;
 	private PaperManager manager;
+	private SearchTable search_table;
 	
 	
 	final static String WELCOME_PANEL = "Card with welcome message";
@@ -63,7 +64,7 @@ public class Window extends JFrame implements ActionListener {
 	JMenuItem menu_add_item1, menu_add_item2, menu_search_item;
 	
 	JComboBox  comboboxSearch;
-	JTable searchTable;
+	//JTable searchTable;
 	
 	
 	
@@ -210,10 +211,24 @@ public class Window extends JFrame implements ActionListener {
             String str_name_of_article = tf_name_of_article_2.getText();
             String str_name_of_author = tf_name_of_author_2.getText();
             String str_name_ofconference = tf_name_of_conference_2.getText();
-            String str_number_of_pages = tf_number_of_pages_2.getText();
             String str_date = tf_date_2.getText();
             String str_city = tf_city_2.getText();
             
+            manager.addObject(new PaperConference(str_name_of_article, str_name_of_author, str_name_ofconference,
+               		str_date,str_city ));
+               
+                	
+               manager.listAllObject();
+        }
+        else if (action.equals("btn_search")) {
+        	
+        	//card_search_center.removeAll();
+        	
+        	getJPanel_searchPaper();
+     
+        	card_search_center.revalidate();
+        	card_search_center.repaint();
+        	System.out.println("Search Button pressed literally");
         }
 	}
 	
@@ -284,7 +299,9 @@ public class Window extends JFrame implements ActionListener {
 		//card_search_center.add(searchTable.getTableHeader());
 		//card_search_center.add(searchTable);
 		
-		JButtonTableExample search_table = new JButtonTableExample();
+		search_table = new SearchTable(manager);
+		
+		search_table.refreshSearchTable();
 		
 		
 		card_search_center.setLayout(new BorderLayout());

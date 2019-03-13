@@ -26,6 +26,14 @@ public class PaperConference extends PaperObject{
 				+ "\nCity: " + str_city) ;
 	}
 
+
+	@Override
+	public Object[] getObjectDataTable() {
+		return new Object[] {
+				"RandomID", str_name_of_conferece, "Conference", "Show Details"
+		};
+	}
+
 	
 	
 

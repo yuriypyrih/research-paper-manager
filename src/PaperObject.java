@@ -11,6 +11,6 @@ public abstract class PaperObject {
 	
 	
 	public abstract String getDetails();
-
+	public abstract Object[] getObjectDataTable();
 
 }
