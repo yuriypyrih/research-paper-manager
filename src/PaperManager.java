@@ -21,5 +21,11 @@ public class PaperManager {
 	
 	}
 	
+	public void listAllObject() {
+		for(PaperObject object : paperObjectList) {
+			System.out.println(object.getDetails());
+		}
+	}
+	
 	
 }

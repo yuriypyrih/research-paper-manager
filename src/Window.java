@@ -194,14 +194,14 @@ public class Window extends JFrame implements ActionListener {
             String str_volume = tf_volume.getText();
             String str_page = tf_page.getText();
             
-            if(PaperJournal.checkInput(str_name_of_article, str_name_of_author, Integer.valueOf(str_number_of_pages)) ){
-            	PaperJournal tempPaper = new PaperJournal(str_name_of_article, str_name_of_author, Integer.valueOf(str_number_of_pages));
-            	manager.addObject(tempPaper);
-            	System.out.println(tempPaper.toString() + " Done!");
+          
             	
-            }else{
-            	System.out.println("Something Went wrong!");
-            }
+           manager.addObject(new PaperJournal(str_name_of_article, str_name_of_author, str_name_of_journal,
+           		Integer.valueOf(str_number_of_pages),str_date,
+           		Integer.valueOf(str_volume), Integer.valueOf(str_page)));
+           
+            	
+           manager.listAllObject();
             
         }
         else if (action.equals("btn_sumbit_2")) {
@@ -310,7 +310,6 @@ public class Window extends JFrame implements ActionListener {
 		tf_name_of_article_2 = new JTextField(15);
 		tf_name_of_author_2 = new JTextField(15);
 		tf_name_of_conference_2 = new JTextField(15);
-		tf_number_of_pages_2 = new JTextField(3);
 		tf_date_2 = new JTextField("12/3/2019",6);
 		tf_city_2 = new JTextField(8);
 		
@@ -342,27 +341,21 @@ public class Window extends JFrame implements ActionListener {
 		card_add_2.add(tf_name_of_conference_2,c);
 		c.gridx = 0;
 		c.gridy = 3;
-		card_add_2.add(new JLabel("Amount of pages"),c);
-		c.gridx = 1;
-		c.gridy = 3;
-		card_add_2.add(tf_number_of_pages_2,c);
-		c.gridx = 0;
-		c.gridy = 4;
 		card_add_2.add(new JLabel("Date of Conference"),c);
 		c.gridx = 1;
-		c.gridy = 4;
+		c.gridy = 3;
 		card_add_2.add(tf_date_2,c);
 		c.gridx = 0;
-		c.gridy = 5;
+		c.gridy = 4;
 		card_add_2.add(new JLabel("City"),c);
 		c.gridx = 1;
-		c.gridy = 5;
+		c.gridy = 4;
 		card_add_2.add(tf_city_2,c);
 		
 		
 		c.ipadx = 50;
 		c.gridx = 1;
-		c.gridy = 6;
+		c.gridy = 5;
 		card_add_2.add(btn_sumbit_2,c);
 		
 		return card_add_2;
