@@ -9,6 +9,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -19,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTable;
@@ -49,7 +55,7 @@ public class Window extends JFrame implements ActionListener {
 	JPanel card_welcome, card_add_1, card_add_2, card_search;
 	JPanel card_search_west,card_search_center;
 	JTextField tf_name_of_article, tf_name_of_author, tf_name_of_journal, tf_number_of_pages, tf_date, tf_volume, tf_page ;
-	JTextField tf_name_of_article_2, tf_name_of_author_2, tf_name_of_conference_2,tf_number_of_pages_2, tf_date_2, tf_city_2;
+	JTextField tf_name_of_article_2, tf_name_of_author_2, tf_name_of_conference_2, tf_date_2, tf_city_2;
 	JTextField tf_search;
 	
 	JButton btn_sumbit_1 , btn_sumbit_2 , btn_search;
@@ -155,6 +161,7 @@ public class Window extends JFrame implements ActionListener {
 				getJPanel_journalPaper();
 				getJPanel_conferencePaper();
 				getJPanel_searchPaper();
+				clearInput();
 				
 					
 		
@@ -180,29 +187,39 @@ public class Window extends JFrame implements ActionListener {
             
         }
         else if (action.equals("Search paper")) {
-            System.out.println("Search Button pressed!");
+            System.out.println("Search Button Menu pressed!");
             card_layout.show(contentPanel, SEARCH_PANEL);
+            card_search.removeAll();
+        	getJPanel_searchPaper();
             
         }
         else if (action.equals("btn_sumbit_1")) {
             System.out.println("Sumbit Button pressed!");
             
-            String str_name_of_article = tf_name_of_article.getText();
-            String str_name_of_author = tf_name_of_author.getText();
-            String str_name_of_journal = tf_name_of_journal.getText();
-            String str_number_of_pages = tf_number_of_pages.getText();
-            String str_date = tf_date.getText();
-            String str_volume = tf_volume.getText();
-            String str_page = tf_page.getText();
-            
+            try {
+	            
+	            String str_name_of_article = tf_name_of_article.getText();
+	            String str_name_of_author = tf_name_of_author.getText();
+	            String str_name_of_journal = tf_name_of_journal.getText();
+	            Integer int_number_of_pages = Integer.valueOf(tf_number_of_pages.getText());
+	            String str_date = tf_date.getText();
+	            String str_volume = tf_volume.getText();
+	            Integer int_page = Integer.valueOf(tf_page.getText());
+	            
+	            if( str_name_of_article.equals("") || str_name_of_author.equals("") || str_name_of_journal.equals("") || str_date.equals("") || str_volume.equals("") ) {
+	            	JOptionPane.showMessageDialog(null,"There shouldn't be empty slots.\nAlso, use numeric values appropriately!", "Failure",JOptionPane.ERROR_MESSAGE);
+	            }
+	            else { 	
+	           	 manager.addObject(new PaperJournal(str_name_of_article, str_name_of_author, str_name_of_journal,
+	           	      		int_number_of_pages,str_date,
+	           	       		str_volume, int_page));
+	            }
+            }catch(Exception e) {
+        		JOptionPane.showMessageDialog(null,"There shouldn't be empty slots.\nAlso, use numeric values appropriately!", "Failure",JOptionPane.ERROR_MESSAGE);
+        	}
           
-            	
-           manager.addObject(new PaperJournal(str_name_of_article, str_name_of_author, str_name_of_journal,
-           		Integer.valueOf(str_number_of_pages),str_date,
-           		Integer.valueOf(str_volume), Integer.valueOf(str_page)));
-           
-            	
-           manager.listAllObject();
+       
+           clearInput();
             
         }
         else if (action.equals("btn_sumbit_2")) {
@@ -214,26 +231,36 @@ public class Window extends JFrame implements ActionListener {
             String str_date = tf_date_2.getText();
             String str_city = tf_city_2.getText();
             
-            manager.addObject(new PaperConference(str_name_of_article, str_name_of_author, str_name_ofconference,
-               		str_date,str_city ));
-               
-                	
-               manager.listAllObject();
+            if( str_name_of_article.equals("") || str_name_of_author.equals("") || str_name_ofconference.equals("") || str_date.equals("") || str_city.equals("")) {
+            	JOptionPane.showMessageDialog(null,"There shouldn't be empty slots!", "Failure",JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+            	System.out.println("THe value of str_name_of_article: " + str_name_of_article);
+            	manager.addObject(new PaperConference(str_name_of_article, str_name_of_author, str_name_ofconference,
+            			str_date,str_city ));
+            }
+            	
+           
+             
+               clearInput();
         }
         else if (action.equals("btn_search")) {
         	
-        	//card_search_center.removeAll();
-        	
+        	card_search_center.removeAll();
         	getJPanel_searchPaper();
-     
         	card_search_center.revalidate();
         	card_search_center.repaint();
+     
+        	
         	System.out.println("Search Button pressed literally");
+        	
+        	
         }
 	}
 	
 	private JPanel getJPanel_searchPaper() {
 
+		
 		GridBagConstraints c_search_west = new GridBagConstraints();
 		
 		
@@ -279,25 +306,7 @@ public class Window extends JFrame implements ActionListener {
 		c_search_west.gridy = 2;
 		card_search_west.add(btn_search,c_search_west);
 		
-		/* Creating the card_search center*/
-
-		/*String[] columnNames = {"ID",
-                "Article Name",
-                "Type",
-                "Details"};
-		
-		Object[][] data = {
-				{"Hello"," World","Hello","Show more"},
-				{"Okey","Bey","Hello"," World"}
-		};
-		
-		searchTable = new JTable(data, columnNames);
-
-		searchTable.setEnabled(false); */
-		
-		
-		//card_search_center.add(searchTable.getTableHeader());
-		//card_search_center.add(searchTable);
+	
 		
 		search_table = new SearchTable(manager);
 		
@@ -305,10 +314,7 @@ public class Window extends JFrame implements ActionListener {
 		
 		
 		card_search_center.setLayout(new BorderLayout());
-		/*
-		card_search_center.add(searchTable.getTableHeader(), BorderLayout.PAGE_START);
-		card_search_center.add(searchTable, BorderLayout.CENTER);
-		*/
+	
 		card_search_center.add(search_table.getJScrollPaneTable());
 
 		
@@ -317,6 +323,9 @@ public class Window extends JFrame implements ActionListener {
 		
 		card_search.add(card_search_west, BorderLayout.WEST);
 		card_search.add(card_search_center, BorderLayout.CENTER);
+		
+		card_search_center.revalidate();
+    	card_search_center.repaint();
 		
 		return card_search;
 	}
@@ -327,7 +336,7 @@ public class Window extends JFrame implements ActionListener {
 		tf_name_of_article_2 = new JTextField(15);
 		tf_name_of_author_2 = new JTextField(15);
 		tf_name_of_conference_2 = new JTextField(15);
-		tf_date_2 = new JTextField("12/3/2019",6);
+		tf_date_2 = new JTextField(6);
 		tf_city_2 = new JTextField(8);
 		
 		
@@ -385,7 +394,7 @@ public class Window extends JFrame implements ActionListener {
 		tf_name_of_author = new JTextField(15);
 		tf_name_of_journal = new JTextField(15);
 		tf_number_of_pages = new JTextField(3);
-		tf_date = new JTextField("12/3/2019",6);
+		tf_date = new JTextField(6);
 		tf_volume = new JTextField(3);
 		tf_page = new JTextField(3);
 		
@@ -447,5 +456,25 @@ public class Window extends JFrame implements ActionListener {
 		return card_add_1;
 	}
 	
+	private void clearInput() {
+		DateFormat JournalDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat ConferenceDateFormat = new SimpleDateFormat("MM/yyyy");
+		Date date = new Date();
+		
+		tf_name_of_article.setText("");
+		tf_name_of_author.setText("");
+		tf_name_of_journal.setText("");
+		tf_number_of_pages.setText("");
+		tf_date.setText(JournalDateFormat.format(date));
+		tf_volume.setText("");
+		tf_page .setText("");
+		tf_name_of_article_2.setText("");
+		tf_name_of_author_2.setText("");
+		tf_name_of_conference_2.setText("");
+		tf_date_2.setText(ConferenceDateFormat.format(date));
+		tf_city_2.setText("");
+		tf_search.setText("");
+	}
+
 	
 }//end of class Window

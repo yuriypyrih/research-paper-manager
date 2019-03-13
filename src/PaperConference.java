@@ -1,6 +1,8 @@
+import java.io.Serializable;
 
+import javax.swing.JOptionPane;
 
-public class PaperConference extends PaperObject{
+public class PaperConference extends PaperObject implements Serializable{
 	
 	private String str_name_of_conferece;
 	private String date_of_conference;
@@ -13,7 +15,7 @@ public class PaperConference extends PaperObject{
 		this.date_of_conference = date_of_conference;
 		this.str_city = str_city;
 		
-		
+		 JOptionPane.showMessageDialog(null,"File added succesfully.");
 	}
 	
 
@@ -30,7 +32,7 @@ public class PaperConference extends PaperObject{
 	@Override
 	public Object[] getObjectDataTable() {
 		return new Object[] {
-				"RandomID", str_name_of_conferece, "Conference", "Show Details"
+				uniqueID, str_name_of_conferece, "Conference", "Show Details"
 		};
 	}
 

@@ -1,14 +1,15 @@
+import java.io.Serializable;
 
+import javax.swing.JOptionPane;
 
-public class PaperJournal extends PaperObject{
-	
+public class PaperJournal extends PaperObject implements Serializable{
 	private String str_name_of_journal;
 	private Integer int_number_of_pages;
 	private String date_publish;
-	private Integer int_volume;
+	private String int_volume;
 	private Integer int_specific_page;
 
-	public PaperJournal(String str_name_of_article, String str_name_of_author,String str_name_of_journal, Integer int_number_of_pages, String date_publish, Integer int_volume, Integer int_specific_page) {
+	public PaperJournal(String str_name_of_article, String str_name_of_author,String str_name_of_journal, Integer int_number_of_pages, String date_publish, String int_volume, Integer int_specific_page) {
 		super(str_name_of_article, str_name_of_author);
 		
 		this.str_name_of_journal = str_name_of_journal;
@@ -20,18 +21,12 @@ public class PaperJournal extends PaperObject{
 			this.int_number_of_pages = int_number_of_pages;
 		
 		
-		if (int_volume <= 0 || int_volume == null) 
-			this.int_volume = -1;
-		else 
-			this.int_volume = int_volume;
-		
-		
 		if (int_specific_page <= 0 || int_specific_page == null) 
 			this.int_specific_page = -1;
 		else 
 			this.int_specific_page = int_specific_page;
 		
-		
+		 JOptionPane.showMessageDialog(null,"File added succesfully.");
 		
 	}
 	
@@ -53,7 +48,7 @@ public class PaperJournal extends PaperObject{
 	@Override
 	public Object[] getObjectDataTable() {
 		return new Object[] {
-				"RandomID", str_name_of_journal, "Journal", "Show Details"
+				uniqueID, str_name_of_journal, "Journal", "Show Details"
 		};
 	}
 

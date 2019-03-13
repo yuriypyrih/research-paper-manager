@@ -20,6 +20,7 @@ public class SearchTable {
 	private JScrollPane scroll;
 	private PaperManager manager;
 	private DefaultTableModel default_model;
+	private JTable table;
 	
 	//private LinkedList<Object[][]> objectDataList = new LinkedList<Object[][]>();
 	
@@ -37,7 +38,7 @@ public class SearchTable {
         	@Override
             public boolean isCellEditable(int row, int column) {
               
-               return false;
+               return true;
             }
         };
         
@@ -52,13 +53,15 @@ public class SearchTable {
 		
 		
        
-
+       
         
     }
 
     public JScrollPane getJScrollPaneTable() {
     	return scroll;
     }
+    
+    
     
     public void refreshSearchTable(){
     	//manager.addObject(new PaperConference("Hello there", "haha", "Okey","something","Athens" ));
@@ -77,9 +80,16 @@ public class SearchTable {
     	
     	
     	
-    	 JTable table = new JTable(data, columnNames);
+    	 table = new JTable(data, columnNames);
+    	 
+    	 //DefaultTableModel model = (DefaultTableModel) table.getModel();
+    	 
+    	 
          table.getColumn("Details").setCellRenderer(new ButtonRenderer());
-         table.getColumn("Details").setCellEditor(new ButtonEditor(new JCheckBox()));
+         table.getColumn("Details").setCellEditor(new ButtonEditor(new JCheckBox(), manager));
+         
+        
+         
          
          System.out.println(table.getRowCount());
 
@@ -90,8 +100,7 @@ public class SearchTable {
          table.getColumnModel().getColumn(0).setPreferredWidth(100);
          
          
-    	
-    	
+       
     }
 }
 
@@ -121,9 +130,14 @@ class ButtonEditor extends DefaultCellEditor {
     protected JButton button;
     private String label;
     private boolean isPushed;
+    private int index;
+    private PaperManager manager;
 
-    public ButtonEditor(JCheckBox checkBox) {
+    public ButtonEditor(JCheckBox checkBox, PaperManager manager) {
         super(checkBox);
+     
+        this.manager = manager;
+        
         button = new JButton();
         button.setOpaque(true);
         button.addActionListener(new ActionListener() {
@@ -133,7 +147,7 @@ class ButtonEditor extends DefaultCellEditor {
             }
         });
     }
-
+   
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value,
             boolean isSelected, int row, int column) {
@@ -144,6 +158,7 @@ class ButtonEditor extends DefaultCellEditor {
             button.setForeground(table.getForeground());
             button.setBackground(table.getBackground());
         }
+        index = row;
         label = (value == null) ? "" : value.toString();
         button.setText(label);
         isPushed = true;
@@ -153,7 +168,8 @@ class ButtonEditor extends DefaultCellEditor {
     @Override
     public Object getCellEditorValue() {
         if (isPushed) {
-            JOptionPane.showMessageDialog(button, label + ": Ouch!");
+            JOptionPane.showMessageDialog(null, label + ": Additional Info\n" + manager.getPaperObjectList().get(index).getDetails());
+         
         }
         isPushed = false;
         return label;
