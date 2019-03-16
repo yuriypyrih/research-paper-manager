@@ -1,3 +1,6 @@
+//ICSD16157 YURIY PYRIH
+//DISTRIBUTED SYSTEMS LAB_1
+
 import java.io.BufferedWriter;
 import java.io.EOFException;
 import java.io.File;
@@ -40,7 +43,10 @@ public class PaperManager{
 	
 	}
 	
-	public LinkedList<PaperObject> getPaperObjectList(){
+	
+	
+	public LinkedList<PaperObject> getPaperObjectList(SEARCH Type){
+		//The SEARCH.Type is not implemented yet	
 		return paperObjectList;
 	}
 	
@@ -52,9 +58,7 @@ public class PaperManager{
 	
 	public void WriteObjectToFile() {
 		
-		
         try {
- 
             FileOutputStream fileOut = new FileOutputStream(filepath);
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
             objectOut.writeObject(paperObjectList);
@@ -62,7 +66,6 @@ public class PaperManager{
             fileOut.close();
             System.out.println("The Object  was succesfully written to a file");
             
- 
         } 
         catch (Exception ex) {
             ex.printStackTrace();
@@ -74,19 +77,10 @@ public class PaperManager{
 			FileInputStream fileIn = new FileInputStream(new File(filepath));
 			ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 			
-			
 			paperObjectList = (LinkedList<PaperObject>) objectIn.readObject(); 
-			
-			
 			
 			objectIn.close();
 			fileIn.close();
-			
-				//PaperObject object = (PaperObject) objectIn.readObject();
-				//this.paperObjectList.add(object);
-			   
-			
-			
 		}
 		catch (FileNotFoundException e) {
 			System.out.println("File not found");

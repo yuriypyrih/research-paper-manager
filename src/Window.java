@@ -1,3 +1,5 @@
+//ICSD16157 YURIY PYRIH
+//DISTRIBUTED SYSTEMS LAB_1
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -6,9 +8,12 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.text.DateFormat;
@@ -39,6 +44,8 @@ public class Window extends JFrame implements ActionListener {
 	private static final long serialVersionUID = -8255319694373975038L;
 	private PaperManager manager;
 	private SearchTable search_table;
+	private SEARCH Type = SEARCH.ALL;
+	private int combobox_index = 0;
 	
 	
 	final static String WELCOME_PANEL = "Card with welcome message";
@@ -50,10 +57,11 @@ public class Window extends JFrame implements ActionListener {
 	
 	ImageIcon search_icon = new ImageIcon("res/search_icon_20.png","Search Icon");
 	ImageIcon add_icon = new ImageIcon("res/add_icon_20.png","Search Icon");
+	ImageIcon background_welcome = new ImageIcon("res/background_welcome.png", "Welcome Icon");
 	
 	JPanel mainPanel,menuPanel,contentPanel;
 	JPanel card_welcome, card_add_1, card_add_2, card_search;
-	JPanel card_search_west,card_search_center;
+	JPanel card_search_west,card_search_west_top,card_search_center;
 	JTextField tf_name_of_article, tf_name_of_author, tf_name_of_journal, tf_number_of_pages, tf_date, tf_volume, tf_page ;
 	JTextField tf_name_of_article_2, tf_name_of_author_2, tf_name_of_conference_2, tf_date_2, tf_city_2;
 	JTextField tf_search;
@@ -106,16 +114,12 @@ public class Window extends JFrame implements ActionListener {
 				card_welcome = new JPanel();
 				card_add_1 = new JPanel( new GridBagLayout());
 				card_add_2 = new JPanel( new GridBagLayout());
-				
 				card_search = new JPanel(new BorderLayout());
 				
 				
 					
-				
-				card_welcome.setBackground(Color.GRAY);
-				//card_add_1.setBackground(Color.GREEN);
-				//card_add_2.setBackground(Color.YELLOW);
-				//card_delete.setBackground(Color.RED);
+				menuPanel.setBackground(Color.GRAY);
+				card_welcome.add(new JLabel(background_welcome));
 				card_search.setBackground(Color.BLUE);
 				
 				menuBar = new JMenuBar();
@@ -246,17 +250,20 @@ public class Window extends JFrame implements ActionListener {
         }
         else if (action.equals("btn_search")) {
         	
+        	
         	card_search_center.removeAll();
         	getJPanel_searchPaper();
         	card_search_center.revalidate();
         	card_search_center.repaint();
-     
-        	
-        	System.out.println("Search Button pressed literally");
-        	
+        	System.out.println("Pressed search");
         	
         }
+       
+        
+        
 	}
+	
+	
 	
 	private JPanel getJPanel_searchPaper() {
 
@@ -264,13 +271,15 @@ public class Window extends JFrame implements ActionListener {
 		GridBagConstraints c_search_west = new GridBagConstraints();
 		
 		
-		card_search_west = new JPanel();
+		card_search_west = new JPanel(new BorderLayout());
+		card_search_west_top = new JPanel();
 		card_search_center = new JPanel();
 		
-		card_search_west.setLayout(new GridBagLayout());
+		card_search_west_top.setLayout(new GridBagLayout());
 		//card_search_center.setLayout(new FlowLayout());
 		
-		card_search_west.setBackground(Color.GREEN);
+		card_search_west_top.setBackground(new Color(163,173,194));
+		card_search_west.setBackground(new Color(163,173,194));
 		card_search_center.setBackground(Color.YELLOW);
 		
 		/* Creating the card_search_west*/
@@ -278,10 +287,10 @@ public class Window extends JFrame implements ActionListener {
 		String[] str_comboboxSearch = { "Show ALL","Name of Article", "Name of Author"};
 		
 		comboboxSearch = new JComboBox(str_comboboxSearch);
-		comboboxSearch.setSelectedIndex(0);
-		comboboxSearch.addActionListener(this);
+		comboboxSearch.setSelectedIndex(combobox_index);
+		//comboboxSearch.addItemListener(this);
 		
-		tf_search = new JTextField(16);
+		tf_search = new JTextField("Not implemented yet",16);
 		btn_search = new JButton("Search");
 		btn_search.setActionCommand("btn_search");
 		btn_search.addActionListener(this);
@@ -289,26 +298,27 @@ public class Window extends JFrame implements ActionListener {
 		
 		c_search_west.ipadx = 0;
 		c_search_west.anchor = GridBagConstraints.LINE_START;
-		c_search_west.insets = new Insets(6,6,6,6);  
+		c_search_west.insets = new Insets(20,6,6,6);  
 		c_search_west.gridx = 0;
 		c_search_west.gridy = 0;
-		card_search_west.add(new JLabel("Search By"),c_search_west);
+		card_search_west_top.add(new JLabel("Search By"),c_search_west);
 		c_search_west.gridx = 1;
 		c_search_west.gridy = 0;
-		card_search_west.add(comboboxSearch,c_search_west);
+		card_search_west_top.add(comboboxSearch,c_search_west);
+		c_search_west.insets = new Insets(6,6,6,6);  
 		c_search_west.gridwidth = 2;
 		c_search_west.gridx = 0;
 		c_search_west.gridy = 1;
-		card_search_west.add(tf_search,c_search_west);
+		card_search_west_top.add(tf_search,c_search_west);
 		c_search_west.insets = new Insets(6,30,6,6);
 		c_search_west.ipadx = 50;
 		c_search_west.gridx = 0;
 		c_search_west.gridy = 2;
-		card_search_west.add(btn_search,c_search_west);
+		card_search_west_top.add(btn_search,c_search_west);
 		
 	
 		
-		search_table = new SearchTable(manager);
+		search_table = new SearchTable(manager, Type);
 		
 		search_table.refreshSearchTable();
 		
@@ -321,6 +331,7 @@ public class Window extends JFrame implements ActionListener {
 		
 		/* Merging them together*/
 		
+		card_search_west.add(card_search_west_top, BorderLayout.NORTH);
 		card_search.add(card_search_west, BorderLayout.WEST);
 		card_search.add(card_search_center, BorderLayout.CENTER);
 		
@@ -342,6 +353,7 @@ public class Window extends JFrame implements ActionListener {
 		
 		btn_sumbit_2 = new JButton("Sumbit");
 		btn_sumbit_2.setActionCommand("btn_sumbit_2");
+		btn_sumbit_2.setToolTipText("If you have mutliple Authors then separate them with coma");
 		btn_sumbit_2.addActionListener(this);
 		
 		c.ipadx = 0;
@@ -400,6 +412,7 @@ public class Window extends JFrame implements ActionListener {
 		
 		btn_sumbit_1 = new JButton("Sumbit");
 		btn_sumbit_1.setActionCommand("btn_sumbit_1");
+		btn_sumbit_1.setToolTipText("If you have mutliple Authors then separate them with coma");
 		btn_sumbit_1.addActionListener(this);
 		
 		c.ipadx = 0;
@@ -447,6 +460,7 @@ public class Window extends JFrame implements ActionListener {
 		c.gridx = 1;
 		c.gridy = 6;
 		card_add_1.add(tf_page,c);
+
 		
 		c.ipadx = 50;
 		c.gridx = 1;
@@ -475,6 +489,10 @@ public class Window extends JFrame implements ActionListener {
 		tf_city_2.setText("");
 		tf_search.setText("");
 	}
+
+
+
+	
 
 	
 }//end of class Window

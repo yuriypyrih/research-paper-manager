@@ -1,3 +1,6 @@
+//ICSD16157 YURIY PYRIH
+//DISTRIBUTED SYSTEMS LAB_1
+
 import java.io.Serializable;
 
 import javax.swing.JOptionPane;

@@ -1,3 +1,6 @@
+//ICSD16157 YURIY PYRIH
+//DISTRIBUTED SYSTEMS LAB_1
+
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +24,8 @@ public class SearchTable {
 	private PaperManager manager;
 	private DefaultTableModel default_model;
 	private JTable table;
+	private SEARCH Type;
+
 	
 	//private LinkedList<Object[][]> objectDataList = new LinkedList<Object[][]>();
 	
@@ -30,9 +35,11 @@ public class SearchTable {
             "Details"};
 	
 	
-    public SearchTable( PaperManager manager) {
+    public SearchTable( PaperManager manager, SEARCH Type ) {
        
     	this.manager = manager;
+    	this.Type = Type;
+   
 
     	default_model = new DefaultTableModel() {
         	@Override
@@ -65,17 +72,23 @@ public class SearchTable {
     
     public void refreshSearchTable(){
     	//manager.addObject(new PaperConference("Hello there", "haha", "Okey","something","Athens" ));
-    	int list_size = manager.getPaperObjectList().size();
-    	int index = 0;
-    	Object[][] data = new Object[list_size][4];
-    	
-    	for(PaperObject object : manager.getPaperObjectList() ) {
-    		data[index][0] = object.getObjectDataTable()[0];
-    		data[index][1] = object.getObjectDataTable()[1];
-    		data[index][2] = object.getObjectDataTable()[2];
-    		data[index][3] = object.getObjectDataTable()[3];
-    		System.out.println( object.getObjectDataTable());
-    		index++;
+    	Object[][] data;
+    	if(manager.getPaperObjectList(Type) != null) {
+    		int list_size = manager.getPaperObjectList(Type).size();
+        	int index = 0;
+        	data = new Object[list_size][4];
+        	
+        	for(PaperObject object : manager.getPaperObjectList(Type) ) {
+        		data[index][0] = object.getObjectDataTable()[0];
+        		data[index][1] = object.getObjectDataTable()[1];
+        		data[index][2] = object.getObjectDataTable()[2];
+        		data[index][3] = object.getObjectDataTable()[3];
+        		System.out.println( object.getObjectDataTable());
+        		index++;
+        	}
+        	
+    	}else {
+    		data = new Object[0][4];
     	}
     	
     	
@@ -86,7 +99,7 @@ public class SearchTable {
     	 
     	 
          table.getColumn("Details").setCellRenderer(new ButtonRenderer());
-         table.getColumn("Details").setCellEditor(new ButtonEditor(new JCheckBox(), manager));
+         table.getColumn("Details").setCellEditor(new ButtonEditor(new JCheckBox(), manager, Type));
          
         
          
@@ -132,11 +145,15 @@ class ButtonEditor extends DefaultCellEditor {
     private boolean isPushed;
     private int index;
     private PaperManager manager;
+    private SEARCH Type;
+    
 
-    public ButtonEditor(JCheckBox checkBox, PaperManager manager) {
+    public ButtonEditor(JCheckBox checkBox, PaperManager manager, SEARCH Type) {
         super(checkBox);
      
         this.manager = manager;
+        this.Type = Type;
+        
         
         button = new JButton();
         button.setOpaque(true);
@@ -168,7 +185,7 @@ class ButtonEditor extends DefaultCellEditor {
     @Override
     public Object getCellEditorValue() {
         if (isPushed) {
-            JOptionPane.showMessageDialog(null, label + ": Additional Info\n" + manager.getPaperObjectList().get(index).getDetails());
+            JOptionPane.showMessageDialog(null, label + ": Additional Info\n" + manager.getPaperObjectList(Type).get(index).getDetails());
          
         }
         isPushed = false;
